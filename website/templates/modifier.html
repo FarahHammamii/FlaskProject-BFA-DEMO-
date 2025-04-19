@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BFA - Modifier Formateur</title>
+
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='imgs/bfa.png') }}"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/onetrainer.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/modifier.css') }}"
+    />
+  </head>
+  <body>
+    <header class="header d-flex">
+      <a href="{{ url_for('views.home') }}">
+        <img
+          src="{{ url_for('static', filename='imgs/bfa.png') }}"
+          alt="BFA"
+          class="logo"
+        />
+      </a>
+      <button class="btn-mobile-nav icon-open" type="button">
+        <i class="fa-solid fa-bars fa-3x icon-mobile-nav"></i>
+      </button>
+      <nav class="main-nav">
+        <ul class="main-nav-list d-flex">
+          <li>
+            <button class="btn-mobile-nav icon-close" type="button">
+              <i class="fa-solid fa-xmark fa-4x icon-mobile-nav"></i>
+            </button>
+          </li>
+          <li>
+            <a href="{{ url_for('views.home') }}" class="main-nav-link"
+              >Acceuil</a
+            >
+          </li>
+          <li>
+            <a href="{{ url_for('views.form') }}" class="main-nav-link"
+              >Se Connecter</a
+            >
+          </li>
+          <li>
+            <a href="{{ url_for('views.formateurs') }}" class="main-nav-link"
+              >Nos Formateurs</a
+            >
+          </li>
+          <li><a href="#footer" class="main-nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section id="profile">
+        <div class="container">
+          <form
+            id="modifier-form"
+            action="{{ url_for('views.update_formateur', formateur_id=formateur.formateur_id) }}"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <div class="image-upload">
+              <label for="image-input">
+                <img
+                  src="{{ url_for('views.get_image', formateur_id=formateur.formateur_id) }}"
+                  alt="Formateur Image"
+                  class="round-image"
+                />
+                <div class="change-image">Changer l'image</div>
+              </label>
+              <input
+                id="image-input"
+                type="file"
+                name="image"
+                accept="image/*"
+                style="display: none"
+              />
+            </div>
+            <div class="form-group">
+              <label for="firstname">Prénom</label>
+              <input
+                type="text"
+                id="firstname"
+                name="firstname"
+                value="{{ formateur.firstname }}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="lastname">Nom</label>
+              <input
+                type="text"
+                id="lastname"
+                name="lastname"
+                value="{{ formateur.lastname }}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="age">Age</label>
+              <input
+                type="number"
+                id="age"
+                name="age"
+                value="{{ formateur.age }}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="birthday">Date de Naissance</label>
+              <input
+                type="date"
+                id="birthday"
+                name="birthday"
+                value="{{ formateur.birthday }}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="country">Pays</label>
+              <input
+                type="text"
+                id="country"
+                name="country"
+                value="{{ formateur.country }}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="state">État</label>
+              <input
+                type="text"
+                id="state"
+                name="state"
+                value="{{ formateur.state }}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="address">Adresse</label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                value="{{ formateur.address }}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value="{{ formateur.email }}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="linkedin">LinkedIn</label>
+              <input
+                type="url"
+                id="linkedin"
+                name="linkedin"
+                value="{{ formateur.linkedin }}"
+                required
+              />
+            </div>
+            <button type="submit">Enregistrer</button>
+          </form>
+        </div>
+      </section>
+    </main>
+    <footer id="footer">
+      <a href="#top" class="scroll-to-top"><i class="fas fa-arrow-up"></i></a>
+    </footer>
+    <script src="{{ url_for('static', filename='js/trainerScroll.js') }}"></script>
+  </body>
+</html>

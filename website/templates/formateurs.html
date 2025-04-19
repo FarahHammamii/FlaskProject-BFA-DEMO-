@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BFA</title>
+
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='imgs/bfa.png') }}"
+      type="image/x-icon"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/formateur.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/bubble.css') }}"
+    />
+
+    <style>
+      .btn-add-admin {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 20px;
+        background-color: #007bff;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+
+      .btn-add-admin:hover {
+        background-color: #0056b3;
+      }
+      .formateur-container {
+        margin-top: 80px; /* Adjust this value as needed */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-bubble">
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+    <div class="overlay1" id="overlay">
+      <div class="modal1">
+        <button class="close-btn1" id="closeBtn">&times;</button>
+        <h2>Contactez Nous</h2>
+        <form id="contactForm">
+          <input type="email" placeholder="Email" required />
+          <textarea placeholder="Votre Message" rows="5" required></textarea>
+          <button type="submit">Envoyez</button>
+        </form>
+      </div>
+    </div>
+    <header class="header d-flex">
+      <a href="{{ url_for('views.home') }}">
+        <img
+          src="{{ url_for('static', filename='imgs/bfa.png') }}"
+          alt="BFA"
+          class="logo"
+        />
+      </a>
+      <button class="btn-mobile-nav icon-open" type="button">
+        <i class="fa-solid fa-bars fa-3x icon-mobile-nav"></i>
+      </button>
+
+      <nav class="main-nav">
+        <ul class="main-nav-list d-flex">
+          <li>
+            <button class="btn-mobile-nav icon-close" type="button">
+              <i class="fa-solid fa-xmark fa-4x icon-mobile-nav"></i>
+            </button>
+          </li>
+          <li>
+            <a href="{{ url_for('views.home') }}" class="main-nav-link"
+              >Acceuil</a
+            >
+          </li>
+          <li>
+            <a href="{{ url_for('views.form') }}" class="main-nav-link"
+              >Qui Sommes</a
+            >
+          </li>
+          <li>
+            <a href="{{ url_for('views.formateurs') }}" class="main-nav-link"
+              >Nos Formateurs</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="formateur-container">
+        <div class="formateur-list">
+          {% for formateur in formateurs %}
+          <div
+            class="formateur-card"
+            data-formateur-id="{{ formateur.formateur_id }}"
+            style="cursor: pointer"
+          >
+            <img
+              src="{{ url_for('views.get_image', formateur_id=formateur.formateur_id) }}"
+              alt="{{ formateur.firstname }} {{ formateur.lastname }}"
+            />
+            <div class="formateur-info">
+              <h3>{{ formateur.firstname }} {{ formateur.lastname }}</h3>
+              <p>{{ formateur.number }}</p>
+              <p>{{ formateur.country }}</p>
+              <p>Domains: {{ ', '.join(formateur.domains) }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="admin-actions">
+          <a href="{{ url_for('views.ajouterAdmin') }}" class="btn-add-admin">
+            Ajouter Admin
+          </a>
+        </div>
+      </section>
+    </main>
+    <footer class="footer2" id="footer">
+      <div class="container">
+        <div class="footer-content d-grid">
+          <div class="footer-logo">
+            <a href="#"
+              ><img
+                class="footer-img"
+                src="{{ url_for('static', filename='imgs/bfa.png') }}"
+                alt=""
+            /></a>
+          </div>
+          <div class="footer-text d-flex">
+            <p class="copyright">
+              <span class="year"></span> &copy;Some rights reserved
+            </p>
+            <p class="footer-desc">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/popup.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bubble.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/trainer.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BFA</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='imgs/bfa.png') }}"
+      type="image/x-icon"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/bubble.css') }}"
+    />
+  </head>
+  <body>
+    <header class="header d-flex">
+      <a href="#">
+        <img
+          src="{{ url_for('static', filename='imgs/bfa.png') }}"
+          alt="YTech logo"
+          class="logo"
+        />
+      </a>
+      <button class="btn-mobile-nav icon-open" type="button">
+        <i class="fa fa-bars fa-3x icon-mobile-nav"></i>
+      </button>
+
+      <nav class="main-nav">
+        <ul class="main-nav-list d-flex">
+          <li>
+            <button class="btn-mobile-nav icon-close" type="button">
+              <i class="fa fa-times fa-4x icon-mobile-nav"></i>
+            </button>
+          </li>
+          <li>
+            <a href="{{ url_for('views.about') }}" class="main-nav-link"
+              >Qui sommes-Nous?</a
+            >
+          </li>
+          <li>
+            <a href="#format" class="main-nav-link">Nos formateurs</a>
+          </li>
+          <li>
+            <a href="{{ url_for('views.form') }}" class="main-nav-link"
+              >Se Connecter</a
+            >
+          </li>
+          <li><a href="#footer" class="main-nav-link">Contact</a></li>
+        </ul>
+      </nav>
+      {% with messages = get_flashed_messages(with_categories=True) %} {% if
+      messages %} {% for category, message in messages %} {% if category ==
+      'error' %}
+      <div class="alert alert-danger alert-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% else %}
+      <div class="alert alert-success alert-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endif %} {% endfor %} {% endif %} {% endwith %}
+    </header>
+
+    <main>
+      <section class="section-hero">
+        <div class="hero container">
+          <h3 class="hero-subtitle">
+            Explorez notre plateforme numérique pour
+          </h3>
+          <h1 class="hero-title">DES FORMATIONS DE QUALITÉ SUPÉRIEURE</h1>
+          <p class="hero-desc">
+            <span class="hero-text">
+              Notre bureau de formation est un hub d'excellence dédié à votre
+              réussite professionnelle. Avec une équipe d'experts passionnés,
+              nous offrons des programmes de qualité supérieure, conçus pour
+              répondre aux exigences du marché. Joignez-vous à nous pour une
+              expérience d'apprentissage enrichissante et transformative.
+            </span>
+          </p>
+        </div>
+
+        <!-- Navigation dots -->
+        <div class="image-navigation">
+          <span class="dot1" data-index="0"></span>
+          <span class="dot1" data-index="1"></span>
+          <span class="dot1" data-index="2"></span>
+        </div>
+      </section>
+      <section class="section-services">
+        <div class="container">
+          <h2 class="heading-secondary">Services</h2>
+          <div class="partition"></div>
+          <div class="services d-grid"></div>
+        </div>
+      </section>
+      <section class="section-formateur" id="format">
+        <div class="container">
+          <h2 class="heading-secondary">Nos formateurs</h2>
+          <div class="partition"></div>
+          <div class="formateurs-container">
+            <img
+              src="{{ url_for('static', filename='imgs/1.png') }}"
+              alt="Formateur 1"
+            />
+            <img
+              src="{{ url_for('static', filename='imgs/2.png') }}"
+              alt="Formateur 2"
+            />
+            <img
+              src="{{ url_for('static', filename='imgs/3.png') }}"
+              alt="Formateur 3"
+            />
+            <img
+              src="{{ url_for('static', filename='imgs/4.png') }}"
+              alt="Formateur 4"
+            />
+            <img
+              src="{{ url_for('static', filename='imgs/5.png') }}"
+              alt="Formateur 5"
+            />
+            <img
+              src="{{ url_for('static', filename='imgs/6.png') }}"
+              alt="Formateur 6"
+            />
+            <button class="arrow-left">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <button class="arrow-right">
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-clients hidden">
+        <div class="container">
+          <h2 class="heading-secondary">Nos partenaires</h2>
+          <div class="partition"></div>
+          <ul class="clients d-flex"></ul>
+        </div>
+      </section>
+
+      <div class="view-more d-flex">
+        <button class="btn-more" type="button">More</button>
+      </div>
+    </main>
+    <footer class="footer hidden" id="footer">
+      <div class="container">
+        <div class="footer-content d-grid">
+          <div class="footer-logo">
+            <a href="#"
+              ><img
+                class="footer-img"
+                src="{{ url_for('static', filename='imgs/bfa.png') }}"
+                alt=""
+            /></a>
+          </div>
+          <div class="footer-text d-flex">
+            <p class="copyright">
+              <span class="year"></span> &copy; Some rights reserved
+            </p>
+            <p class="footer-desc">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <div class="chat-bubble">
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+    <div class="overlay1" id="overlay">
+      <div class="modal1">
+        <button class="close-btn1" id="closeBtn">&times;</button>
+        <h2>Contactez Nous</h2>
+        <form id="contactForm">
+          <input type="email" placeholder="Email" required />
+          <textarea placeholder="Votre Message" rows="5" required></textarea>
+          <button type="submit">Envoyez</button>
+        </form>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/bubble.js') }}"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

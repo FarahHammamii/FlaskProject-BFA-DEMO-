@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajouter Admin - BFA Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha384-1e3cf4b32c6aa2e25564d4f3b3ff9b5b4c62a0d4e5fbd0e1547ee8471d8d3e9c"
+      crossorigin="anonymous"
+    />
+    <style>
+      /* Existing CSS */
+      .content {
+        margin-top: 8rem;
+        padding: 20px;
+        transition: margin-left 0.3s ease;
+        position: relative;
+        z-index: 999;
+        overflow-x: auto;
+      }
+
+      .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .form-container h2 {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        font-weight: bold;
+      }
+
+      .form-group input,
+      .form-group select {
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-size: 1.6rem; /* Increase font size */
+        padding: 1rem; /* Increase padding */
+      }
+
+      .form-group input[type="password"] {
+        font-size: 1.6rem;
+        padding: 1rem;
+      }
+
+      .image-upload {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .image-upload label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        border: 2px solid #ddd;
+        padding: 10px;
+        border-radius: 8px;
+        background: #fff;
+        color: #fcfcfc;
+      }
+
+      .image-upload img {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        margin-right: 20px;
+      }
+
+      .change-image {
+        font-size: 1.6rem;
+        color: #007bff;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/profile.css') }}"
+    />
+  </head>
+
+  <body>
+    <header class="header d-flex">
+      <a href="{{ url_for('views.home') }}">
+        <img
+          src="{{ url_for('static', filename='imgs/bfa.png') }}"
+          alt="BFA"
+          class="logo"
+        />
+      </a>
+      <button class="btn-mobile-nav icon-open" type="button">
+        <i class="fa-solid fa-bars fa-3x icon-mobile-nav"></i>
+      </button>
+
+      <nav class="main-nav">
+        <ul class="main-nav-list d-flex">
+          <li>
+            <button class="btn-mobile-nav icon-close" type="button">
+              <i class="fa-solid fa-xmark fa-4x icon-mobile-nav"></i>
+            </button>
+          </li>
+          <li>
+            <a href="{{ url_for('views.home') }}" class="main-nav-link"
+              >Accueil</a
+            >
+          </li>
+          <li>
+            <a href="{{ url_for('views.form') }}" class="main-nav-link"
+              >Se Connecter</a
+            >
+          </li>
+          <li>
+            <a
+              href="#formateurs"
+              class="main-nav-link"
+              onclick="showFormateurs()"
+              >Nos Formateurs</a
+            >
+          </li>
+          <li>
+            <a href="#admins" onclick="showAdmins()" class="main-nav-link"
+              >Nos Admins</a
+            >
+          </li>
+          <li><a href="#footer" class="main-nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="content">
+      <div class="content-container">
+        <div class="content-containerinside">
+          <h2 class="section-title">Ajouter un Admin</h2>
+          <form
+            method="post"
+            action="{{ url_for('views.add_admin') }}"
+            enctype="multipart/form-data"
+          >
+            <div class="image-upload">
+              <label for="image-input">
+                <img
+                  id="image-preview"
+                  src="{{ url_for('static', filename='imgs/default-avatar.png') }}"
+                  alt="Formateur Image"
+                />
+                <div class="change-image">Ajouter Image</div>
+              </label>
+              <input
+                id="image-input"
+                type="file"
+                name="image"
+                accept="image/*"
+                style="display: none"
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="form-group admin-only">
+              <label for="firstName">Prénom:</label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                class="form-control"
+              />
+            </div>
+
+            <div class="form-group admin-only">
+              <label for="lastName">Nom:</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                class="form-control"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Mot de Passe:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="role">Rôle:</label>
+              <select
+                id="role"
+                name="role"
+                class="form-control"
+                required
+                onchange="toggleAdminFields()"
+              >
+                <option value="admin">Admin</option>
+                <option value="superadmin">Super Admin</option>
+              </select>
+            </div>
+
+            <button class="btn1" type="submit">Ajouter</button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Toggle admin fields visibility based on role selection
+      function toggleAdminFields() {
+        var roleSelect = document.getElementById("role");
+        var imageUploadSection = document.querySelector(".image-upload");
+        var adminOnlyFields = document.querySelectorAll(".admin-only");
+
+        if (roleSelect.value === "superadmin") {
+          imageUploadSection.style.display = "none";
+          adminOnlyFields.forEach(function (field) {
+            field.style.display = "none";
+          });
+        } else {
+          imageUploadSection.style.display = "flex";
+          adminOnlyFields.forEach(function (field) {
+            field.style.display = "block";
+          });
+        }
+      }
+
+      // Display selected image preview
+      document
+        .getElementById("image-input")
+        .addEventListener("change", function (event) {
+          var preview = document.getElementById("image-preview");
+          var file = event.target.files[0];
+          var reader = new FileReader();
+
+          reader.onload = function () {
+            preview.src = reader.result;
+          };
+
+          if (file) {
+            reader.readAsDataURL(file);
+          }
+        });
+    </script>
+  </body>
+</html>

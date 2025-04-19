@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Notifications</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/notification.css') }}"
+    />
+  </head>
+  <body>
+    <div class="wrapper">
+      <h2 class="titre">Notifications des Administrateurs</h2>
+      <div class="notifications-container">
+        {% if notifications %} {% for notification in notifications %}
+        <div class="notification-card">
+          <div class="notification-header">
+            <span class="admin-name">
+              {{ notification.admin_name }} {{ notification.admin_last_name }}
+            </span>
+            <span class="notification-date">
+              {{ notification.date.strftime('%Y-%m-%d %H:%M:%S') }}
+            </span>
+          </div>
+          <div class="notification-body">
+            <div class="notification-text">
+              {% if notification.action_name == 'aj' %}
+              <p class="notification-action">
+                {{ notification.admin_name }} {{ notification.admin_last_name }}
+                a ajouté le formateur.
+              </p>
+              {% elif notification.action_name == 'mod' %}
+              <p class="notification-action">
+                {{ notification.admin_name }} {{ notification.admin_last_name }}
+                a modifié le formateur.
+              </p>
+              {% elif notification.action_name == 'del' %}
+              <p class="notification-action">
+                {{ notification.admin_name }} {{ notification.admin_last_name }}
+                a supprimé le formateur avec ID {{ notification.formateur_id }}.
+              </p>
+              {% endif %}
+            </div>
+            {% if notification.action_name != 'del' %}
+            <div class="formateur-image-container">
+              <img
+                src="{{ url_for('views.get_image', formateur_id=notification.formateur_id) }}"
+                alt="Image du Formateur"
+                class="small-formateur-image"
+              />
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <p>Aucune notification disponible.</p>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>

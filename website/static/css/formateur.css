@@ -1,0 +1,49 @@
+.formateur-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .formateur-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s;
+  }
+  .formateur-card img {
+    width: 100%;
+    height: auto;
+  }
+  .formateur-card:hover {
+    transform: scale(1.05);
+  }
+  .formateur-info {
+    padding: 10px;
+  }
+  .formateur-info h3 {
+    margin: 10px 0 5px;
+  }
+  .formateur-info p {
+    margin: 0;
+    color: #777;
+  }
+  .filters {
+    margin: 20px 0;
+    padding: 4%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .filters label {
+    margin-right: 10px;
+  }
+  .filters select {
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 4px;
+  }
+  .formateur-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }

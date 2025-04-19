@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BFA</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='imgs/bfa.png') }}"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <style>
+      .alert {
+        font-size: 1.2rem;
+        padding: 15px;
+      }
+      .form-container {
+        position: relative;
+      }
+      .form-container form {
+        display: none;
+      }
+      .form-container form.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header d-flex">
+      <!-- Your header content -->
+    </header>
+    <main>
+      <div class="wrapper">
+        <div class="title-text">
+          <div class="titre">Se Connecter</div>
+        </div>
+        <div class="form-container">
+          <div class="slide-controls">
+            <input type="radio" name="slide" id="login" checked />
+            <input type="radio" name="slide" id="signup" />
+            <label for="login" class="slide login">Admin</label>
+            <label for="signup" class="slide signup">Super Admin</label>
+            <div class="slider-tab"></div>
+          </div>
+          <div class="form-inner">
+            <!-- Admin Form -->
+            <form
+              id="admin-form"
+              action="{{ url_for('views.login_admin') }}"
+              method="post"
+            >
+              <input type="hidden" name="is_super_admin" value="false" />
+              <div class="field">
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="email/userid"
+                  required
+                />
+              </div>
+              <div class="field">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Mot de passe"
+                  required
+                />
+              </div>
+              <div class="field btn">
+                <div class="btn-layer"></div>
+                <input type="submit" value="Se connecter" />
+              </div>
+            </form>
+            <!-- Super Admin Form -->
+            <form
+              id="superadmin-form"
+              action="{{ url_for('views.login_superadmin') }}"
+              method="post"
+            >
+              <input type="hidden" name="is_super_admin" value="true" />
+              <div class="field">
+                <input type="text" name="email" placeholder="email" required />
+              </div>
+              <div class="field">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Mot de passe"
+                  required
+                />
+              </div>
+              <div class="field btn">
+                <div class="btn-layer"></div>
+                <input type="submit" value="Se connecter" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="footer hidden" id="footer">
+      <!-- Your footer content -->
+    </footer>
+    <script src="{{ url_for('static', filename='js/style.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popup.js') }}"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const adminLabel = document.querySelector('label[for="login"]');
+        const superAdminLabel = document.querySelector('label[for="signup"]');
+        const adminForm = document.getElementById("admin-form");
+        const superAdminForm = document.getElementById("superadmin-form");
+
+        adminLabel.addEventListener("click", function () {
+          adminForm.classList.add("active");
+          superAdminForm.classList.remove("active");
+        });
+
+        superAdminLabel.addEventListener("click", function () {
+          superAdminForm.classList.add("active");
+          adminForm.classList.remove("active");
+        });
+      });
+    </script>
+  </body>
+</html>

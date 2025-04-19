@@ -1,0 +1,143 @@
+
+
+  .chat-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 40px;
+    background: #1c3f98;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    animation: bubbleAnimation 1s infinite;
+  }
+  .overlay1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .modal1 {
+    background-color: #1c3f98;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+  }
+
+  .modal1 h2 {
+    margin: 0 0 20px;
+  }
+
+  .modal1 form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal1 form input,
+  .modal1 form textarea,
+  .modal1 form button {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+  }
+
+  .modal1 form button {
+    background-color: #00aaff;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .close-btn1 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .open-modal-btn1 {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #1c3f98;
+    color: #ffffff;
+    cursor: pointer;
+  }
+  .chat-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -9px;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 0 10px;
+    border-color: #1c3f98 transparent transparent transparent;
+  }
+
+  .chat-bubble .dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    height: 100%;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    animation: dotAnimation 1s infinite;
+  }
+
+  .dot:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+
+  .dot:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+
+  .dot:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes bubbleAnimation {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes dotAnimation {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 1;
+    }
+  }

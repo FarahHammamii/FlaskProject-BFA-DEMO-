@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BFA Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha384-1e3cf4b32c6aa2e25564d4f3b3ff9b5b4c62a0d4e5fbd0e1547ee8471d8d3e9c"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+      #map {
+        height: 500px;
+        width: 100%;
+      }
+    </style>
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='imgs/bfa.png') }}"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/profile.css') }}"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+      .domain-list {
+        list-style-type: none; /* Removes default bullet points */
+        padding: 0; /* Removes default padding */
+        margin: 0; /* Removes default margin */
+      }
+
+      .domain-item {
+        background-color: #154db5; /* Light background color */
+        border: 1px solid #ddd; /* Light border color */
+        border-radius: 5px; /* Rounded corners */
+        padding: 10px; /* Adds padding inside list items */
+        margin-bottom: 8px; /* Adds spacing between items */
+        font-size: 1.1em; /* Slightly larger font size */
+        font-family: Arial, sans-serif; /* Ensures a clean, readable font */
+      }
+
+      .domain-item:hover {
+        background-color: #1c3f98; /* Darker background on hover */
+        cursor: pointer; /* Changes cursor to pointer on hover */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="loading-screen">
+      <div class="floating-boxes">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+      </div>
+      <div id="loading-message">Welcome Admin</div>
+      <div id="loading-icon"></div>
+      <div id="loading-sub-message">
+        Please wait while we load the database...
+      </div>
+    </div>
+
+    <!-- Header with buttons -->
+    <header class="header d-flex">
+      <a href="{{ url_for('views.home') }}">
+        <img
+          src="{{ url_for('static', filename='imgs/bfa.png') }}"
+          alt="BFA"
+          class="logo"
+        />
+      </a>
+      <button class="btn-mobile-nav icon-open" type="button">
+        <i class="fa-solid fa-bars fa-3x icon-mobile-nav"></i>
+      </button>
+
+      <nav class="main-nav">
+        <ul class="main-nav-list d-flex">
+          <li>
+            <button class="btn-mobile-nav icon-close" type="button">
+              <i class="fa-solid fa-xmark fa-4x icon-mobile-nav"></i>
+            </button>
+          </li>
+          <li>
+            <a href="{{ url_for('views.home') }}" class="main-nav-link"
+              >Accueil</a
+            >
+          </li>
+          <li>
+            <a href="{{ url_for('views.form') }}" class="main-nav-link"
+              >Se Connecter</a
+            >
+          </li>
+          <li>
+            <a
+              href="#formateurs"
+              class="main-nav-link"
+              onclick="showFormateurs()"
+              >Nos Formateurs</a
+            >
+          </li>
+          <li>
+            <a href="#admins" onclick="showAdmins()" class="main-nav-link"
+              >Nos Admins</a
+            >
+          </li>
+          <li><a href="#footer" class="main-nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="main-nav">
+      <!-- Main content -->
+      <div class="content" id="main-content" style="display: none">
+        <div>
+          <!-- Admins section -->
+          <div id="admin-section" class="content-container">
+            <div class="content-containerinside">
+              <h2 class="section-title">Admins</h2>
+              <button>Ajouter Admin</button>
+              <table class="table admin-table">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for admin in admins %}
+                  <tr>
+                    <td>
+                      <img
+                        class="small-rectangular-image"
+                        src="{{ url_for('views.get_imageadmin', admin_id=admin.id) }}"
+                        alt="{{ admin.firstName }} {{ admin.lastName }}"
+                      />
+                    </td>
+                    <td>{{ admin.id }}</td>
+                    <td>{{ admin.email }}</td>
+                    <td>{{ admin.firstName }}</td>
+                    <td>{{ admin.lastName }}</td>
+                    <td>
+                      {% if 'mod' not in admin.privileges %}
+                      <form
+                        action="{{ url_for('views.grant_modifier', admin_id=admin.id) }}"
+                        method="post"
+                        style="display: inline"
+                      >
+                        <button type="submit">Grant Mod</button>
+                      </form>
+                      {% endif %} {% if 'del' not in admin.privileges %}
+                      <form
+                        action="{{ url_for('views.grant_supprimer', admin_id=admin.id) }}"
+                        method="post"
+                        style="display: inline"
+                      >
+                        <button type="submit">Grant del</button>
+                      </form>
+                      {% endif %} {% if 'mod' in admin.privileges and 'del' in
+                      admin.privileges %}
+                      <span>All privileges granted.</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="chart-container">
+              <canvas id="activityChart"></canvas>
+            </div>
+            <div class="mt-4">
+              <h3>Top 3 Admins les plus actifs</h3>
+              <table class="top-admins-table">
+                <tbody>
+                  {% for admin in top_admins[:3] %}
+                  <tr>
+                    <td>
+                      <div class="admin-image">
+                        <img
+                          class="small-rectangular-imagee"
+                          src="{{ url_for('views.get_imageadmin', admin_id=admin.id) }}"
+                          alt="{{ admin.firstName }} {{ admin.lastName }}"
+                        />
+                      </div>
+                      <div class="admin-name">
+                        {{ admin.firstName }} {{ admin.lastName }}
+                      </div>
+                    </td>
+                    <td class="rectangle"></td>
+                  </tr>
+                  {% endfor %}
+                  <!-- Ensure there are exactly 3 rows -->
+                  {% for _ in range(3 - top_admins[:3]|length) %}
+                  <tr>
+                    <td></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="mt-4">
+              <canvas id="privilegesChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div>
+          <!-- Formateurs section -->
+          <div id="formateur-section" class="content-container">
+            <h2 class="section-title">Formateurs</h2>
+            <div class="mt-4">
+              <h3>Nombre total de formateurs : {{ number }}</h3>
+            </div>
+            <div class="chart-container">
+              <h3>Nombre de formateurs ajoutés par mois</h3>
+              <canvas id="formateursChart"></canvas>
+            </div>
+            <div class="mt-4">
+              <h3>Domaines des formateurs</h3>
+              <ul id="formateurs-domaines" class="domain-list">
+                {% for domain in domains %}
+                <li class="domain-item">{{ domain }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+
+            <div class="mt-4">
+              <h3>Pays des formateurs</h3>
+              <div id="map"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer hidden" id="footer">
+      <div class="container">
+        <div class="footer-content d-grid">
+          <div class="footer-logo">
+            <a href="#">
+              <img
+                class="footer-img"
+                src="{{ url_for('static', filename='imgs/bfa.png') }}"
+                alt="BFA"
+              />
+            </a>
+          </div>
+          <div class="footer-text d-flex">
+            <p class="copyright">
+              <span class="year"></span> &copy; Some rights reserved
+            </p>
+            <p class="footer-desc">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const activitiesData = JSON.parse(
+          "{{ activities_data | tojson | safe }}"
+        );
+        const ctxActivity = document
+          .getElementById("activityChart")
+          .getContext("2d");
+        new Chart(ctxActivity, {
+          type: "bar",
+          data: {
+            labels: [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ],
+            datasets: [
+              {
+                label: "Nb d'activité",
+                data: activitiesData,
+                backgroundColor: "#fff",
+                borderColor: "#1c3f98",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get the privileges data from Flask passed into the template
+        const priviData = JSON.parse("{{ privi | tojson | safe }}");
+
+        // Render the pie chart using Chart.js
+        const ctx = document.getElementById("privilegesChart").getContext("2d");
+        new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: ["Ajouter", "Supprimer", "Modifier"],
+            datasets: [
+              {
+                label: "Privilèges",
+                data: priviData, // Use the data from Flask
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(255, 206, 86, 0.2)",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(255, 206, 86, 1)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+        });
+      });
+    </script>
+    <script>
+      var ctx = document.getElementById("formateursChart").getContext("2d");
+      var formateurs_by_month = JSON.parse(
+        "{{ formateurs_by_month| tojson | safe }}"
+      );
+
+      var formateursChart = new Chart(ctx, {
+        type: "bar", // or 'line', 'pie', etc.
+        data: {
+          labels: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ],
+          datasets: [
+            {
+              label: "Formateurs Ajoutés",
+              data: formateurs_by_month,
+              backgroundColor: "#fff",
+              borderColor: "#1c3f98",
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize the map and center it on Tunisia
+        const map = L.map("map").setView([33.8869, 9.5375], 6); // Centered on Tunisia with zoom level 6
+
+        // Add the OpenStreetMap tile layer
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "© OpenStreetMap contributors",
+        }).addTo(map);
+
+        // Optionally, add a marker to Tunisia
+        L.marker([33.8869, 9.5375]).addTo(map).bindPopup("Tunisia").openPopup();
+      });
+    </script>
+    <script src="{{ url_for('static', filename='js/test.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popup.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/style.js') }}"></script>
+  </body>
+</html>
